@@ -40,7 +40,7 @@ void *sendhello_function(void* dilip){
 			double time_sent =(1000.0*(now.tv_sec-myself.start_t.tv_sec)+((now.tv_nsec-myself.start_t.tv_nsec)/1000000.0));
 			stringstream s2;
 			s2 << time_sent;
-			cout << "sent time of: "<<nid<<" is "<<time_sent<<endl;
+			//cout << "sent time of: "<<nid<<" is "<<time_sent<<endl;
 			s_id = s2.str();
 			s_id = tempsend + s_id;
 			strcpy(send_data,s_id.c_str());
@@ -167,10 +167,10 @@ void *reciever_function(void* dilip){
 				extract[1] = atoi(extractchar[1]);
 				double timesent = atof(extractchar[2]);
     				struct timespec now;//dilip
-				cout<<" time sent of: "<<extract[0]<<" Is "<<timesent<<endl;
+				//cout<<" time sent of: "<<extract[0]<<" Is "<<timesent<<endl;
 				clock_gettime(CLOCK_REALTIME,&now);
 				double time_recv =(1000.0*(now.tv_sec-myself.start_t.tv_sec)+((now.tv_nsec-myself.start_t.tv_nsec)/1000000.0));
-				cout<<" time recieved of: "<<extract[0]<<" is "<<time_recv<<endl;
+				//cout<<" time recieved of: "<<extract[0]<<" is "<<time_recv<<endl;
 				extract[2] = (int)(time_recv - timesent);
 				cout << "cost of index: "<<extract[0]<<" is "<<extract[2]<<endl;
 				//if(myself.id == extract[1])
@@ -219,7 +219,7 @@ void *reciever_function(void* dilip){
 				}
 				//cout <<" sequence number comaparison : "<< myself.all_nodes[extract[0]].seq_nu << " "<< extract[1]<<endl;
 				if(myself.all_nodes[extract[0]].seq_nu < extract[1]){ 
-					cout << "** got lsa message **"<<recv_data<<endl;
+					//cout << "** got lsa message **"<<recv_data<<endl;
 					pthread_mutex_lock(&myself.mtx1);
 					myself.all_nodes[extract[0]].seq_nu = extract[1];
 					myself.all_nodes[extract[0]].neighs.clear();
@@ -249,10 +249,10 @@ void *reciever_function(void* dilip){
 				server_addr.sin_addr = *((struct in_addr *) host->h_addr);//manuplate to neigh address
 						//cout<<"2send address: "<<inet_ntoa(server_addr.sin_addr)<<" recvaddr: "<<inet_ntoa(client_addr.sin_addr)<<endl;
 
-				cout<<" current neigh is: "<<s_id<<endl;
+				//cout<<" current neigh is: "<<s_id<<endl;
 					if( strcmp(inet_ntoa(server_addr.sin_addr),recvaddr) == 0 ){
 						//cout<<"3send address: "<<inet_ntoa(server_addr.sin_addr)<<" recvaddr: "<<recvaddr<<endl;
-						cout<<" didn't broadcast to: "<<nid<<endl;	
+						//cout<<" didn't broadcast to: "<<nid<<endl;	
 					continue;}
 					//cout<<"***** ***broadcasted to: "<<nid<<endl;
 					//server_addr.sin_port = htons(20000+nid);//manuplate neigh id
