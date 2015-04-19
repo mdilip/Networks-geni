@@ -197,14 +197,14 @@ void *reciever_function(void* dilip){
 				pthread_mutex_unlock(&myself.mtx);
 		}
 		else if(firstspace == 3){
-	cout<<"1send address:  recvaddr: "<<inet_ntoa(client_addr.sin_addr)<<endl;
+	//cout<<"1send address:  recvaddr: "<<inet_ntoa(client_addr.sin_addr)<<endl;
 				char recvaddr[100];
 				strcpy(recvaddr,inet_ntoa(client_addr.sin_addr));
 
 	//				break;
 	//			case 3://got lsa message need to broadcast lsa message
 				//LSA | srcid | Seq. Number | No. Entries | Neigh1 | Cost1 | Neigh2 | Cost2 |
-				cout <<" got lsa message: "<< recv_data<<endl;
+				//cout <<" got lsa message: "<< recv_data<<endl;
 				char* ext;
 				char temp_data[SENDBYTES];
 				vector<int> extract;
@@ -236,7 +236,7 @@ void *reciever_function(void* dilip){
 				//broadcasting lsa message
 				struct sockaddr_in server_addr = myself.my_addr;
 				struct hostent *host;
-							cout<<"1send address: "<<inet_ntoa(server_addr.sin_addr)<<" recvaddr: "<<inet_ntoa(client_addr.sin_addr)<<endl;
+							//cout<<"1send address: "<<inet_ntoa(server_addr.sin_addr)<<" recvaddr: "<<inet_ntoa(client_addr.sin_addr)<<endl;
 			char neighhost[30];
 				for(int i = 0; i< myself.no_neigh; i++){
 					int nid = myself.neigh[i].id;
@@ -247,14 +247,14 @@ void *reciever_function(void* dilip){
     				strcpy(neighhost,s_id.c_str());
     				host = (struct hostent *) gethostbyname((char *)neighhost);
 				server_addr.sin_addr = *((struct in_addr *) host->h_addr);//manuplate to neigh address
-						cout<<"2send address: "<<inet_ntoa(server_addr.sin_addr)<<" recvaddr: "<<inet_ntoa(client_addr.sin_addr)<<endl;
+						//cout<<"2send address: "<<inet_ntoa(server_addr.sin_addr)<<" recvaddr: "<<inet_ntoa(client_addr.sin_addr)<<endl;
 
 				cout<<" current neigh is: "<<s_id<<endl;
 					if( strcmp(inet_ntoa(server_addr.sin_addr),recvaddr) == 0 ){
-						cout<<"3send address: "<<inet_ntoa(server_addr.sin_addr)<<" recvaddr: "<<recvaddr<<endl;
+						//cout<<"3send address: "<<inet_ntoa(server_addr.sin_addr)<<" recvaddr: "<<recvaddr<<endl;
 						cout<<" didn't broadcast to: "<<nid<<endl;	
 					continue;}
-					cout<<"***** ***broadcasted to: "<<nid<<endl;
+					//cout<<"***** ***broadcasted to: "<<nid<<endl;
 					//server_addr.sin_port = htons(20000+nid);//manuplate neigh id
 					//send_data[SENDBYTES-1] = '#';
 					sendto(myself.my_sock, recv_data, SENDBYTES, 0,(struct sockaddr *) &server_addr, sizeof (struct sockaddr));
