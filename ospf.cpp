@@ -44,7 +44,7 @@ void *sendhello_function(void* dilip){
 			s_id = s2.str();
 			s_id = tempsend + s_id;
 			strcpy(send_data,s_id.c_str());
-			cout<< " senddata "<<nid<<" iis " <<send_data<<endl;
+			//cout<< " senddata "<<nid<<" iis " <<send_data<<endl;
 
 			send_data[SENDBYTES-1] = '#';
 			sendto(myself.my_sock, send_data, SENDBYTES, 0,(struct sockaddr *) &server_addr, sizeof (struct sockaddr));
@@ -91,7 +91,7 @@ void *sendlsa_function(void* dilip){
 		}
 		pthread_mutex_unlock(&myself.mtx);
 		strcat(send_data,s_id.c_str());
-		cout <<" lsa message : "<<send_data<<endl;
+		//cout <<" lsa message : "<<send_data<<endl;
 		//sending lsa message to all neighbours
 		for(int i = 0; i< myself.no_neigh; i++){
 			int nid = myself.neigh[i].id;
@@ -172,7 +172,7 @@ void *reciever_function(void* dilip){
 				double time_recv =(1000.0*(now.tv_sec-myself.start_t.tv_sec)+((now.tv_nsec-myself.start_t.tv_nsec)/1000000.0));
 				//cout<<" time recieved of: "<<extract[0]<<" is "<<time_recv<<endl;
 				extract[2] = (int)(time_recv - timesent);
-				cout << "cost of index: "<<extract[0]<<" is "<<extract[2]<<endl;
+				//cout << "cost of index: "<<extract[0]<<" is "<<extract[2]<<endl;
 				//if(myself.id == extract[1])
 				//	cout << " recived correct helloreply : "<< recv_data <<endl;
 				int duplicate = -1;
@@ -279,7 +279,7 @@ void *createspf_function(void* dilip){
 		vector<Node> allnodescopy;
 		pthread_mutex_lock(&myself.mtx1);
 		pthread_mutex_lock(&myself.mtx);
-		allnodescopy = myself.all_nodes;
+		allnodescopy = myself.all_nodes;/*
 		stringstream sod;
 		sod << myself.id;
 		string outdel = "delete-" + sod.str();
@@ -297,7 +297,7 @@ void *createspf_function(void* dilip){
 				dil << " id "<<k<<" one "<<allnodescopy[u].neighs[k].id<<" two "<<myself.all_nodes[u].neighs[k].id<<endl;
 			}
 		}
-		dil.close();
+		dil.close();*/
 		pthread_mutex_unlock(&myself.mtx);
 		pthread_mutex_unlock(&myself.mtx1);
 		//cout << " In Shortest path function : size of vector allnodescopy : "<< allnodescopy.size() <<endl;
@@ -315,24 +315,24 @@ void *createspf_function(void* dilip){
 
 		//this loop updates the cost, parent and permanent fields in the Node structure
 		while(myself.total_nodes != perma){//condition to halt
-			ofile<<" current node from perma : "<<recent_node<<endl;
+			//ofile<<" current node from perma : "<<recent_node<<endl;
 			//recent_node is the node that got resently added to permanent list
 			//update labels of all the neighbors of recent_node
-			ofile<<" number of neighbours in recent_node : "<<allnodescopy[recent_node].no_neigh<<endl;
+			//ofile<<" number of neighbours in recent_node : "<<allnodescopy[recent_node].no_neigh<<endl;
 			for(int i=0; i<allnodescopy[recent_node].no_neigh; i++){
-				ofile<<" current node index: "<<i<<" id "<<allnodescopy[recent_node].neighs[i].id<<endl;
+				//ofile<<" current node index: "<<i<<" id "<<allnodescopy[recent_node].neighs[i].id<<endl;
 				if(allnodescopy[allnodescopy[recent_node].neighs[i].id].parmanent)
 					continue;
 				if(allnodescopy[allnodescopy[recent_node].neighs[i].id].cost >=
 						 allnodescopy[recent_node].cost + allnodescopy[recent_node].neighs[i].cost){
-					ofile <<" node "<<allnodescopy[recent_node].neighs[i].id<< " cost edited to ";
+					//ofile <<" node "<<allnodescopy[recent_node].neighs[i].id<< " cost edited to ";
 					allnodescopy[allnodescopy[recent_node].neighs[i].id].cost =
 						 allnodescopy[recent_node].cost + allnodescopy[recent_node].neighs[i].cost;
-					ofile <<allnodescopy[allnodescopy[recent_node].neighs[i].id].cost<<endl;
+					//ofile <<allnodescopy[allnodescopy[recent_node].neighs[i].id].cost<<endl;
 					allnodescopy[allnodescopy[recent_node].neighs[i].id].parent = recent_node;
 				}
-				else
-					ofile << "current node cost not updated "<<endl;
+				//else
+					//ofile << "current node cost not updated "<<endl;
 			}
 			//chose the node with least_cost that is leastcostindex and add it to permanent.
 			int leastcostindex;
